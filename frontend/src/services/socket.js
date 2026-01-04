@@ -1,10 +1,20 @@
 export function connectSocket(token, onMessage) {
-  const socket = new WebSocket(
-    `ws://127.0.0.1:8000/ws/chat?token=${token}`
-  );
+  // Use same-origin WebSocket URL so it works over HTTPS (wss) and through Vite proxy
+  const proto = window.location.protocol === "https:" ? "wss" : "ws";
+  const host = window.location.host;
+  const url = `${proto}://${host}/ws/chat?token=${encodeURIComponent(token)}`;
 
+  const socket = new WebSocket(url);
+
+  socket.onopen = () => console.info("WS open", url);
+  socket.onclose = (e) => console.warn("WS closed", e);
+  socket.onerror = (e) => console.error("WS error", e);
   socket.onmessage = (e) => {
-    onMessage(JSON.parse(e.data));
+    try {
+      onMessage(JSON.parse(e.data));
+    } catch (err) {
+      console.error("Failed parsing WS message", err, e.data);
+    }
   };
 
   return socket;
