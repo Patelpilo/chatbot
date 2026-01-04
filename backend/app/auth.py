@@ -12,20 +12,15 @@ ALGORITHM = "HS256"
 
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
-
-
 class User(BaseModel):
     email: str
     password: str
 
-
 def hash_password(password: str):
     return pwd_context.hash(password)
 
-
 def verify_password(plain, hashed):
     return pwd_context.verify(plain, hashed)
-
 
 def create_token(email: str):
     payload = {
@@ -33,7 +28,6 @@ def create_token(email: str):
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=2),
     }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
 
 @router.post("/register")
 def register(user: User):
@@ -45,8 +39,6 @@ def register(user: User):
     print("COLLECTION:", users_collection.name)
     print("ID:", result.inserted_id)
     return {"message": "User registered successfully"}
-
-
 
 @router.post("/login")
 def login(user: User):

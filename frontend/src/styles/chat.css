@@ -1,0 +1,10 @@
+.chat { display:flex; flex-direction:column; height:100%; }
+.chat-header { display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #eee; }
+.status.online { color: green; }
+.status.offline { color: red; }
+.messages { flex:1; padding:8px; overflow:auto; }
+.me { text-align:right; margin:6px 0; }
+.them { text-align:left; margin:6px 0; }
+.composer { display:flex; gap:8px; padding:8px; border-top:1px solid #eee; }
+input[disabled] { opacity:0.6; }
+.typing { font-style:italic; color:#666; margin:6px 0; }
