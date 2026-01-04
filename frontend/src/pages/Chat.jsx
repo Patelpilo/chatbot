@@ -30,9 +30,39 @@ export default function Chat({ token, email, recipient }) {
 
     // set socketReady when connection opens
     if (socketRef.current) {
-      socketRef.current.onopen = () => setSocketReady(true);
-      socketRef.current.onclose = () => setSocketReady(false);
-      socketRef.current.onerror = () => setSocketReady(false);
+      socketRef.current.onopen = () => {
+        console.info("WS open");
+        setSocketReady(true);
+      };
+      socketRef.current.onclose = (e) => {
+        console.warn("WS closed", e);
+        setSocketReady(false);
+        // try to reconnect after a short delay
+        setTimeout(() => {
+          if (!socketRef.current || socketRef.current.readyState === WebSocket.CLOSED) {
+            console.info("Attempting WS reconnect");
+            socketRef.current = connectSocket(token, (msg) => {
+              if (msg.sender === "whatease_bot") {
+                setBotWaiting(false);
+              }
+              setMessages((prev) => [...prev, msg]);
+            });
+            // re-attach handlers to the new socket
+            socketRef.current.onopen = () => setSocketReady(true);
+            socketRef.current.onclose = () => setSocketReady(false);
+            socketRef.current.onerror = () => setSocketReady(false);
+          }
+        }, 1000);
+      };
+      socketRef.current.onerror = (e) => {
+        console.error("WS error", e);
+        setSocketReady(false);
+      };
+
+      // If the socket is already open (happens if it opened before handlers attached), set ready state
+      if (socketRef.current.readyState === WebSocket.OPEN) {
+        setSocketReady(true);
+      }
     }
 
     return () => {
