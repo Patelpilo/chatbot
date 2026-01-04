@@ -25,7 +25,14 @@ export default function Chat({ token, email, recipient }) {
       if (msg.sender === "whatease_bot") {
         setBotWaiting(false);
       }
-      setMessages((prev) => [...prev, msg]);
+
+      // dedupe recent messages (avoid duplicates from echo + history or double sockets)
+      setMessages((prev) => {
+        const recent = prev.slice(-10);
+        const exists = recent.some((m) => m.sender === msg.sender && m.content === msg.content);
+        if (exists) return prev;
+        return [...prev, msg];
+      });
     });
 
     // set socketReady when connection opens
@@ -96,8 +103,7 @@ export default function Chat({ token, email, recipient }) {
     }
 
     socketRef.current.send(JSON.stringify(msgObj));
-    // optimistic UI: append the user's message locally
-    setMessages((prev) => [...prev, { sender: email, content: text }]);
+    // clear input; we'll rely on server echo for display to avoid duplicates
     setInput("");
   }
 
