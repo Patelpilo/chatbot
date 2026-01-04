@@ -28,9 +28,11 @@ export default function Chat({ token, email, recipient }) {
 
       // dedupe recent messages (avoid duplicates from echo + history or double sockets)
       setMessages((prev) => {
-        const recent = prev.slice(-10);
-        const exists = recent.some((m) => m.sender === msg.sender && m.content === msg.content);
-        if (exists) return prev;
+        const last = prev[prev.length - 1];
+        if (last && last.sender === msg.sender && last.content === msg.content) {
+          // ignore immediate duplicate
+          return prev;
+        }
         return [...prev, msg];
       });
     });
