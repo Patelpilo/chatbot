@@ -1390,3 +1390,195 @@ INFO:     152.59.3.24:0 - "GET /chats/whatease_bot HTTP/1.1" 200 OK
 INFO:     152.59.3.24:0 - "GET /chats/whatease_bot HTTP/1.1" 200 OK
 INFO:     152.59.3.24:0 - "WebSocket /ws/chat?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3Njc1MzExMzd9.Jp1S9s9MUp0jzs5q2TbQlntIxQH5FQRWz6Ex4XjtHpA" [accepted]
 INFO:     connection open
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 244, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 364, in handle
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 141, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 138, in app
+    await func(session)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 438, in app
+    await dependant.call(**solved_result.values)
+  File "/workspaces/chatbot/backend/app/websocket.py", line 16, in chat_socket
+    data = await ws.receive_json()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 136, in receive_json
+    self._raise_on_disconnect(message)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 114, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+INFO:     connection closed
+WARNING:  StatReload detected changes in 'backend/app/ai_bot.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [51641]
+INFO:     Started server process [55037]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING: Could not connect to MongoDB at mongodb://localhost:i wan to27017 — falling back to in-memory mock DB. Error: Port contains non-digit characters. Hint: username and password must be escaped according to RFC 3986, use urllib.parse.quote_plus
+INFO:     127.0.0.1:59152 - "POST /auth/login HTTP/1.1" 400 Bad Request
+INSERTED INTO DB: mockdb
+COLLECTION: mock_collection
+ID: 1
+INFO:     127.0.0.1:47568 - "POST /auth/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47582 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52420 - "WebSocket /ws/chat?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3Njc1MzE2ODB9.XS4m2q_avjR7bjkkgoX7IAKtvD62xsvVqMlCfOrQgeo" [accepted]
+INFO:     connection open
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 244, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 364, in handle
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 141, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 138, in app
+    await func(session)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 438, in app
+    await dependant.call(**solved_result.values)
+  File "/workspaces/chatbot/backend/app/websocket.py", line 16, in chat_socket
+    data = await ws.receive_json()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 136, in receive_json
+    self._raise_on_disconnect(message)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 114, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1006, '')
+INFO:     connection closed
+INFO:     127.0.0.1:52428 - "GET /chats/whatease_bot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52442 - "WebSocket /ws/chat?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMiLCJleHAiOjE3Njc1MzE2ODB9.XS4m2q_avjR7bjkkgoX7IAKtvD62xsvVqMlCfOrQgeo" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:52452 - "GET /chats/whatease_bot HTTP/1.1" 200 OK
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 244, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/applications.py", line 1135, in __call__
+    await super().__call__(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/routing.py", line 364, in handle
+    await self.app(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 141, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 138, in app
+    await func(session)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 438, in app
+    await dependant.call(**solved_result.values)
+  File "/workspaces/chatbot/backend/app/websocket.py", line 16, in chat_socket
+    data = await ws.receive_json()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 136, in receive_json
+    self._raise_on_disconnect(message)
+  File "/workspaces/chatbot/.venv/lib/python3.12/site-packages/starlette/websockets.py", line 114, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+INFO:     connection closed
+WARNING:  StatReload detected changes in 'backend/app/websocket.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [55037]
+INFO:     Started server process [61546]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'backend/app/ai_bot.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [61546]
+INFO:     Started server process [61562]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'backend/app/ai_bot.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [61562]
+INFO:     Started server process [61564]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
