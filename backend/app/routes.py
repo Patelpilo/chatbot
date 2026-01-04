@@ -7,7 +7,6 @@ from app.ai_bot import generate_bot_reply
 
 router = APIRouter()
 
-
 @router.post("/messages/send")
 def send_message(data: Message, user=Depends(get_current_user)):
     message = {
@@ -19,7 +18,6 @@ def send_message(data: Message, user=Depends(get_current_user)):
     }
     messages_collection.insert_one(message)
 
-    # AI BOT RESPONSE
     if data.recipient == "whatease_bot":
         bot_reply_text = generate_bot_reply(data.content)
 
@@ -33,7 +31,6 @@ def send_message(data: Message, user=Depends(get_current_user)):
         messages_collection.insert_one(bot_message)
 
     return {"status": "Message sent"}
-
 
 @router.get("/chats/{recipient}")
 def get_chat(recipient: str, user=Depends(get_current_user)):

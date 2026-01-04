@@ -1,5 +1,4 @@
 export function connectSocket(token, onMessage) {
-  // Use same-origin WebSocket URL so it works over HTTPS (wss) and through Vite proxy
   const proto = window.location.protocol === "https:" ? "wss" : "ws";
   const host = window.location.host;
   const url = `${proto}://${host}/ws/chat?token=${encodeURIComponent(token)}`;

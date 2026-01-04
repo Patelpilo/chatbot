@@ -1,12 +1,9 @@
 from fastapi import APIRouter, WebSocket
 from jose import jwt
 from app.ai_bot import generate_bot_reply
+from app.auth import SECRET_KEY, ALGORITHM
 
 router = APIRouter()
-
-SECRET_KEY = "secret123"
-ALGORITHM = "HS256"
-
 
 @router.websocket("/ws/chat")
 async def chat_socket(ws: WebSocket, token: str):
@@ -26,7 +23,12 @@ async def chat_socket(ws: WebSocket, token: str):
         })
 
         if recipient == "whatease_bot":
-            bot_reply = generate_bot_reply(content)
+            try:
+                bot_reply = await generate_bot_reply(content)
+            except Exception as e:
+                print("Error generating bot reply:", e)
+                bot_reply = "I'm having trouble replying right now."
+
             await ws.send_json({
                 "sender": "whatease_bot",
                 "content": bot_reply

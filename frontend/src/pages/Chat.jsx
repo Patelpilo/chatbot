@@ -15,29 +15,24 @@ export default function Chat({ token, email, recipient }) {
     let mounted = true;
     getChatHistory(token, recipient).then((res) => mounted && setMessages(res || []));
 
-    // connect socket (reconnect when token or recipient changes)
     if (socketRef.current) {
       socketRef.current.close();
     }
 
     socketRef.current = connectSocket(token, (msg) => {
-      // when bot reply arrives, mark botWaiting false
       if (msg.sender === "whatease_bot") {
         setBotWaiting(false);
       }
 
-      // dedupe recent messages (avoid duplicates from echo + history or double sockets)
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last && last.sender === msg.sender && last.content === msg.content) {
-          // ignore immediate duplicate
           return prev;
         }
         return [...prev, msg];
       });
     });
 
-    // set socketReady when connection opens
     if (socketRef.current) {
       socketRef.current.onopen = () => {
         console.info("WS open");
@@ -46,7 +41,6 @@ export default function Chat({ token, email, recipient }) {
       socketRef.current.onclose = (e) => {
         console.warn("WS closed", e);
         setSocketReady(false);
-        // try to reconnect after a short delay
         setTimeout(() => {
           if (!socketRef.current || socketRef.current.readyState === WebSocket.CLOSED) {
             console.info("Attempting WS reconnect");
@@ -56,7 +50,6 @@ export default function Chat({ token, email, recipient }) {
               }
               setMessages((prev) => [...prev, msg]);
             });
-            // re-attach handlers to the new socket
             socketRef.current.onopen = () => setSocketReady(true);
             socketRef.current.onclose = () => setSocketReady(false);
             socketRef.current.onerror = () => setSocketReady(false);
@@ -68,7 +61,6 @@ export default function Chat({ token, email, recipient }) {
         setSocketReady(false);
       };
 
-      // If the socket is already open (happens if it opened before handlers attached), set ready state
       if (socketRef.current.readyState === WebSocket.OPEN) {
         setSocketReady(true);
       }
@@ -80,7 +72,6 @@ export default function Chat({ token, email, recipient }) {
     };
   }, [recipient, token]);
 
-  // scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -92,20 +83,17 @@ export default function Chat({ token, email, recipient }) {
     if (!text) return;
 
     if (!socketRef.current || socketRef.current.readyState !== WebSocket.OPEN) {
-      // show feedback via console and optionally add a message to UI
       console.warn("WebSocket not ready - message not sent");
       return;
     }
 
     const msgObj = { recipient, content: text };
 
-    // If chatting with the bot, show waiting indicator
     if (recipient === "whatease_bot") {
       setBotWaiting(true);
     }
 
     socketRef.current.send(JSON.stringify(msgObj));
-    // clear input; we'll rely on server echo for display to avoid duplicates
     setInput("");
   }
 

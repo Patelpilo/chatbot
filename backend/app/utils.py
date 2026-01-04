@@ -1,9 +1,7 @@
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer
 from jose import jwt, JWTError
-
-SECRET_KEY = "secret123"
-ALGORITHM = "HS256"
+from app.auth import SECRET_KEY, ALGORITHM
 
 security = HTTPBearer()
 
