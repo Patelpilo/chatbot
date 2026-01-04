@@ -1,22 +1,11 @@
-import os
-import asyncio
-from dotenv import load_dotenv
+def generate_bot_reply(message: str) -> str:
+    """Synchronous rule-based reply generator.
+    This is prototype bot.
+    """
+    msg = (message or "").lower().strip()
 
-# Load .env so OPENAI_API_KEY can be set via a .env file locally
-load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-try:
-    import openai
-    if OPENAI_API_KEY:
-        openai.api_key = OPENAI_API_KEY
-except Exception:
-    openai = None
-
-
-def _rule_based_reply(message: str) -> str:
-    msg = message.lower().strip()
+    if not msg:
+        return "Please send a message."
 
     if "hello" in msg or "hi" in msg:
         return "Hello! I am WhatsEase AI Bot. How can I help you?"
@@ -37,30 +26,3 @@ def _rule_based_reply(message: str) -> str:
         return "Good question — I'm still learning, but I can try: could you rephrase or ask something simpler?"
 
     return "I'm still learning. Please ask something else!"
-
-
-async def generate_bot_reply(message: str) -> str:
-    """Generate a reply for the bot. Uses OpenAI when OPENAI_API_KEY is set and the `openai` package
-    is available; otherwise falls back to the built-in rule-based replies. Adds logs so workers show whether AI was used.
-    """
-    if OPENAI_API_KEY and openai is not None:
-        try:
-            print("Using OpenAI for bot reply")
-            resp = await openai.ChatCompletion.acreate(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are WhatsEase AI Bot that replies briefly and helpfully."},
-                    {"role": "user", "content": message},
-                ],
-                temperature=0.6,
-                max_tokens=150,
-            )
-            reply = resp.choices[0].message.content.strip()
-            print("OpenAI reply length:", len(reply))
-            return reply
-        except Exception as e:
-            print("OpenAI error, falling back to rule-based reply:", e)
-            return _rule_based_reply(message)
-
-    print("OpenAI not configured or unavailable — using rule-based reply")
-    return _rule_based_reply(message)

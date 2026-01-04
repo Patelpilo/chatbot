@@ -24,7 +24,7 @@ async def chat_socket(ws: WebSocket, token: str):
 
         if recipient == "whatease_bot":
             try:
-                bot_reply = await generate_bot_reply(content)
+                bot_reply = generate_bot_reply(content)
             except Exception as e:
                 print("Error generating bot reply:", e)
                 bot_reply = "I'm having trouble replying right now."
